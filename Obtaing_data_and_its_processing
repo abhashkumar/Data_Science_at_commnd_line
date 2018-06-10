@@ -1,0 +1,87 @@
+cp ~/Desktop/logs.csv . > here . represent the current directory
+
+scp > remotely secure copy > read in details
+unpack > run it from anywhere
+
+cut -d ',' -f 1 names.csv
+
+cut comman > https://shapeshed.com/unix-cut/
+
+Data sets which contain many repeated value(such as words in a text file or Keys in a JSOn file) are especially well suited for compression.
+
+Comman file extension for compression archives are .tar.gz , .zip and .rar.
+
+To decompress these you would use the command line tool tar, unzip and unrar respectively.
+
+In order to extract a file named logs.tar.gz, you would use
+
+$ tar -xzvf data/logs.tar.gz
+
+In this case, the four command-line arguments x, z, v, and f specify that tar should extract files from an archive, use gzip as the decompression algorithm, be verbose and use file logs.tar.gz.
+
+Rather than remembering the different command line tool and their options, there is a handy script called unpack.
+unpack looks at the extension of the file that you want to decompress and call the appropriate command line tool.
+
+in2csv >> converts microsoft excel spread sheets to csv
+csv stands for comma separated value.
+
+CSV as defined by RFC 4180 is accordancewith the below three points::
+
+Each record is located on a separate line, delimited by a line break (CRLF).
+
+The last record in the file may or may not have an ending line break.
+
+There maybe an optional header line appearing as the first line of the file with the same format as normal record lines. This header will contain names corresponding to the fields in the file and should contain the same number of fields as the records in the rest of the file 
+
+$ in2csv data/imdb-250.xlsx > data/imdb-250.csv
+
+$ in2csv imdb-250.xlsx | head | cut -c1-80 > cut 80 character from each line
+
+csv is not that readable : you can pipe the data to a tool csvlook that can format the data into a table
+
+A spreadsheet can contain multiple worksheets. By default, in2csv extracts the first worksheet. To extract a different worksheet, you need to pass the name of worksheet to the --sheet option.
+
+The tools in2csv, csvcut, and csvlook are actually part of Csvkit, which is collection of command-line tools to work with CSV data. 
+
+Fortunately, there is a command-line tool called sql2csv, which is part of the Csvkit suite. Because it leverages the Python SQLAlchemy package, we only have to use one tool to execute queries on many different databases through a common interface, including MySQL, Oracle, PostgreSQL, SQLite, Microsoft SQL Server, and Sybase.
+
+$ sql2csv --db 'sqlite:///data/iris.db' --query 'SELECT * FROM iris '\
+> 'WHERE sepal_length > 7.5'
+
+Here, we are selecting all rows where sepal\_length is larger than 7.5. The --db option specifies the database URL, of which the typical form is: dialect+driver://username:password@host:port/database
+
+curl > command used for downloading data form internet
+
+when cURL is used to access a URL, the data is downloaded as is printed to standard output. Other command-line tools may then be used to process this data further.
+
+when cURL is used to access a URL, the data is downloaded as is printed to standard output. Other command-line tools may then be used to process this data further.
+
+$ curl -s http://www.gutenberg.org/cache/epub/76/pg76.txt | head -n 10
+
+By default it shows procress meter(download rate and expected time) but -s means silent means it won't.
+
+$ curl -s http://www.gutenberg.org/cache/epub/76/pg76.txt -o data/finn.txt > -o stands for the output file
+
+or we can write like
+
+$ curl http://www.gutenberg.org/cache/epub/76/pg76.txt > data/finn.txt
+
+when the url is password protected you can write this
+
+$ curl -u username:password ftp://host/file
+
+If the specified URL is a directory, curl will list the contents of that directory.
+
+When you access a shortened URL, such as the ones that start with http://bit.ly/* or http://t.co/*, your browser automatically redirects you to the correct location. With curl, however, you need to specify the -L or --location option in order to be redirected:
+
+$ curl -L j.mp/locatbbar > otherwise you may get garbage html tags
+
+Web APIs are not meant to be presented in nice layout, such as websites. Instead, most web APIs return data in a structured format, such as JSON or XML. Having data in a structured form has the advantage that the data can be easily processed by other tools, such as jq. 
+
+$ curl -s http://api.randomuser.me | jq '.'
+
+Some APIs require you to log in using the OAuth protocol. There is a handy command-line tool called curlicue (Foster 2014) that assists in performing the so-called “OAuth dance”. Once this has been set up, it curlicue will call curl with the correct headers. First, you set things up once for a particular API with curlicue-setup, and then you can call that API using curlicue. 
+
+
+
+
