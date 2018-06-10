@@ -1,0 +1,109 @@
+whoami
+
+hostname
+
+date
+
+seq 3
+
+The command line provide the REPl(Read-Eval-Print-loop).
+This means you type in commands, press and commands gets evaluated immediately.
+
+=========================================================
+Getting Started:
+
+Setting up thr dataScience toolbox ::
+Download docker :: https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-using-the-repository
+
+Four layers > Command line tools(commands : cat,jq,ls), Terminal(where we type commands), Shell(When press enter after typing command the terminal sends that commands to shell, a program that interprets the command)
+
+The Docker images uses bash as a shell
+
+The other good shell is Z shell
+
+The forth layer is os(operating system)
+
+The Docker image is based on a perticular Linux distribution called Alpine linux.
+
+Sometime we are using commands and pipelines that are too long to fit on the page. In that case write something like that:
+
+$ echo 'Hello'\
+> ' world' |
+> wc
+
+A greater sign is the continuation prompt signifies the continuation of previous prompt.
+
+A long command can be broken up with either a backslash or a pipe. Be sure to first match any quotation mark
+
+head -3 data/movies.txt
+
+Each command line tool is one of the following five times ::
+Docker comes with the aboove two commands
+
+A binary executable > created by compiling source code to machine code
+
+A shell builtin > Shell builtins are command-line tools provided by the shell, which is Bash in our case.
+
+An interpreted script > An interpreted script is a text file that is executed by a binary executable. Examples include: Python, R, and Bash scripts.
+
+This script is interpreted by Python not because of the file extension .py, but because the first line of the script defines the binary that should execute it.
+
+##!/usr/bin/env python
+
+A shell function > A shell function is a function that is, in our case executed by Bash. They provide similar functionality to a Bash script, but they are usually (but not necessarily) smaller than scripts
+
+$ fac() { (echo 1; seq $1) | paste -s -d\* | bc; }
+$ fac 5
+120
+
+To know about paste command :: https://www.geeksforgeeks.org/paste-command-linux-examples/
+
+An alies : a handy tool > alias moer=more or alias up="cd .."
+
+Like shell functions, aliases are often defined in .bashrc or .bash_aliases configuration files, which are located in your home directory. Type alias to see all alias'
+
+For seeing the type of a command write > type -a pwd or type -a fac
+
+combining command line tools ::
+
+seq 300 | grep 3 | wc -l > The option -l specifies that wc should only output the number of lines that are pass into it. By default it also returns the number of characters and words.
+
+
+A regular expression can also be passed to the grep
+
+Output redirection >(write) ,  >>(append)
+
+$ echo -n "Hello" > hello-world > -n signifies echo does not output a trailing line
+
+
+$ cat hello-world | wc -w or $ < hello-world wc -w or $ wc -w hello-world
+
+$ mv hello.txt ~/book/ch02/data/ > used for moving a file/directory or renaming a file/directory
+
+$ rm bye.txt > Deleting  file
+
+$ rm -r book/ch02/data/old > deleting an entire directory
+
+$ cp server.log server.log.bak > copying a file good for taking a backup
+
+$mkdir > creating a directory
+
+All commands mentioned above takes an argument as -v for verbose output
+
+All commands except mkdir takes -i as parameter means interactive and waiting for user's conformation
+
+Sometimes you’ll see us use head, fold, or cut at the end of a command. This is only to ensure that the output of the command fits on the page; you don’t have to type these. For example, head -n 5 only prints the first five lines, fold wraps long lines to 80 characters, and cut -c1-80 trims lines that are long than 80 characters.
+
+You can use man <command name> for manual for the command, but not all pages has manual, You will have to use help
+
+like $ help cd | head -n 20
+
+
+Newer tools that can be used from the command-line, often lack a man page as well. In that case, your best bet is to invoke the tool with the --help option (and sometimes the -h option). For example:
+
+jq --help > command line json processor
+
+
+
+
+
