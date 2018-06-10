@@ -1,0 +1,99 @@
+tr > https://www.geeksforgeeks.org/tr-command-unixlinux-examples/
+
+cut > https://shapeshed.com/unix-cut/
+
+tr stands for translation > tr [option] SET1 [SET2]
+
+options :
+
+-c: complements the set of character in string
+-d: delete character in the first set from the output
+-s: replaces repeated characters listed in set1 with single occurance
+-t: truncates set1
+
+$cat greekfile | tr “[a-z]” “[A-Z]” > lower case to upper case
+
+or $cat geekfile | tr “[:lower:]” “[:upper:]”
+
+$ echo "Welcome    To    GeeksforGeeks" | tr -s [:space:] ' ' > squeeze repetition of characters
+
+$ echo "Welcome To GeeksforGeeks" | tr -d 'w' > delete specified character
+
+$ echo "my ID is 73535" | tr -d [:digit:] > remove all digits from the strings
+
+$ curl -s http://www.gutenberg.org/cache/epub/76/pg76.txt | 
+> tr '[:upper:]' '[:lower:]' | 
+> grep -oE '\w+' |             
+> sort |                       
+> uniq -c |                    
+> sort -nr |                   
+> head -n 10       
+
+
+
+
+In short, as you may have guessed from the output, this one-liner returns the top ten words of the e-book version of Adventures of Huckleberry Finn.
+
+Because we use Bash as our shell, the script will be written in the programming language Bash. This allows us to take the one-liner as the starting point, and gradually improve on it. To turn this one-liner into a reusable command-line tool, we’ll walk you through the following six steps:
+
+Copy and paste the one-liner into a file.
+
+Add execute permissions.
+
+Define a so-called shebang.
+
+Remove the fixed input part.
+
+Add a parameter.
+
+
+
+Here is a nice little command-line trick. On the command-line, !! will be substituted with the previous command. So, if you realize you needed superuser privileges for the previous command, you can run sudo !!
+
+
+Optionally extend your PATH.
+
+            
+cp top-words-{1,2}.sh > copying the file
+
+$ chmod u+x top-words-2.sh > giving file executable permission
+
+-rwxrw-r-- > for user first three, fot the group middle three, for all other last three
+
+Note that if you’re ever in the same directory as the executable, you need to execute it as follows:
+
+$ cd ~/book/ch04
+$ ./top-words-2.sh
+
+The shebang is a special line in the script, which instructs the system which executable should be used to interpret the commands.
+
+#!/usr/bin/env bash
+
+ The Bash shell, which is the one that we are using, uses the executable /bin/sh by default. 
+ 
+To run the bash script from any where > add the path of the toolbox where script resides to the path variable
+
+export PATH=$PATH:/path/to/dir
+source ~/.bashrc
+
+
+cat data-science-at-the-command-line/data/ch04/data/finn.txt | python top-words.py 20
+
+Remember to #!/usr/bin/env python at the top of the script
+And the path 
+
+Run the program like 
+
+$ < data/76.txt top-words.sh 5 (Remember from the first chapter)
+
+ On the command line, most command-line tools pipe data to the next command-line tool in a streaming fashion. (There are a few command-line tools which require the complete data before they write any data to standard output, like sort and awk (Brennan 1994).)
+ 
+ This does not have to be a problem when the input data is finite, like a file. However, when the input data is a non-stop stream, such blocking command-line tools are useless.
+
+
+Luckily Python are R support processing streaming data. You can apply a function on a line-per-line basis, for example. Example 4.6 and Example 4.7 are two minimal examples that demonstrate how this works in Python and R, respectively.
+
+
+ 
+
+
