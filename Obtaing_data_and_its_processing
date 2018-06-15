@@ -76,12 +76,12 @@ When you access a shortened URL, such as the ones that start with http://bit.ly/
 
 $ curl -L j.mp/locatbbar > otherwise you may get garbage html tags
 
+$ curl -L -O http://swcarpentry.github.io/r-novice-inflammation/files/r-novice-inflammation-data.zip > don't get any output in stdout and URL having LOCATION
+
 Web APIs are not meant to be presented in nice layout, such as websites. Instead, most web APIs return data in a structured format, such as JSON or XML. Having data in a structured form has the advantage that the data can be easily processed by other tools, such as jq. 
 
 $ curl -s http://api.randomuser.me | jq '.'
 
 Some APIs require you to log in using the OAuth protocol. There is a handy command-line tool called curlicue (Foster 2014) that assists in performing the so-called “OAuth dance”. Once this has been set up, it curlicue will call curl with the correct headers. First, you set things up once for a particular API with curlicue-setup, and then you can call that API using curlicue. 
-
-
 
 
