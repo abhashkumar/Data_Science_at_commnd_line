@@ -1,0 +1,573 @@
+http://swcarpentry.github.io/shell-novice/
+http://swcarpentry.github.io/shell-novice/04-pipefilter/index.html
+http://swcarpentry.github.io/shell-novice/05-loop/index.html
+
+
+The part that you type, ls -F / in the second line of the example, typically has the following structure: a command, some flags (also called options or switches) and an argument. Flags start with a single dash (-) or two dashes (--), and change the behaviour of a command. 
+
+In the examples for this lesson, we’ll show the prompt as $ . You can make your prompt look the same by entering the command PS1='$ '. But you can also leave your prompt as it is - often the prompt includes useful information about who and where you are.
+
+First let’s find out where we are by running a command called pwd (which stands for “print working directory”). Directories are like places - at any time while we are using the shell we are in exactly one place, called our current working directory. Commands mostly read and write files in the current working directory, i.e. “here”, so knowing where you are before running a command is important. pwd shows you where you are:
+
+
+Notice that there are two meanings for the / character. When it appears at the front of a file or directory name, it refers to the root directory. When it appears inside a name, it’s just a separator.
+
+ls prints the names of the files and directories in the current directory. We can make its output more comprehensible by using the flag -F (also known as a switch or an option) , which tells ls to add a marker to file and directory names to indicate what they are. A trailing / indicates that this is a directory. Depending on your settings, it might also use colors to indicate whether each entry is a file or directory. 
+
+man ls or ls --help
+
+The command ls -R lists the contents of directories recursively, i.e., lists their sub-directories, sub-sub-directories, and so on at each level. The command ls -t lists things by time of last change, with most recently changed files or directories first.
+
+The special names . and .. don’t belong to cd; they are interpreted the same way by every program. For example, if we are in /Users/nelle/data, the command ls .. will give us a listing of /Users/nelle. When the meanings of the parts are the same no matter how they’re combined, programmers say they are orthogonal: Orthogonal systems tend to be easier for people to learn because there are fewer special cases and exceptions to keep track of.
+
+The shell interprets the character ~ (tilde) at the start of a path to mean “the current user’s home directory”. For example, if Nelle’s home directory is /Users/nelle, then ~/data is equivalent to /Users/nelle/data. This only works if it is the first character in the path: here/there/~/elsewhere is not here/there/Users/nelle/elsewhere.
+
+Another shortcut is the - (dash) character. cd will translate - into the previous directory I was in, which is faster than having to remember, then type, the full path. This is a very efficient way of moving back and forth between directories. The difference between cd .. and cd - is that the former brings you up, while the latter brings you back. 
+
+cd ~ or only cd
+
+ls -F ../backup
+
+ls -r -F > displaying results in decreasingly sorted order of the names
+
+Let’s type in a few lines of text. Once we’re happy with our text, we can press Ctrl-O (press the Ctrl or Control key and, while holding it down, press the O key) to write our data to disk (we’ll be asked what file we want to save this to: press Return to accept the suggested default of draft.txt).
+
+In nano, along the bottom of the screen you’ll see ^G Get Help ^O WriteOut. This means that you can use Control-G to get help and Control-O to save your file.
+
+Also use like rm -r -i <directory name> here i stands for interactive, similarly we can use mv -i
+
+Assume that the file structure is in a folder called ‘2016-05-18-data’, which contains a data folder that in turn contains folders named raw and processed that contain data files. The goal is to copy the file structure of the 2016-05-18-data folder into a folder called 2016-05-20-data and remove the data files from the directory you just created.
+
+$ cp -r 2016-05-18-data/ 2016-05-20-data/
+$ rm 2016-05-20-data/raw/*
+$ rm 2016-05-20-data/processed/*
+
+wc -w *py > counting words in all the python file
+
+* is a wildcard. It matches zero or more characters, so *.pdb matches ethane.pdb, propane.pdb, and every file that ends with ‘.pdb’. On the other hand, p*.pdb only matches pentane.pdb and propane.pdb, because the ‘p’ at the front only matches filenames that begin with the letter ‘p’.
+
+? is also a wildcard, but it only matches a single character. This means that p?.pdb would match pi.pdb or p5.pdb (if we had these two files in the molecules directory), but not propane.pdb. We can use any number of wildcards at a time: for example, p*.p?* matches anything that starts with a ‘p’ and ends with ‘.’, ‘p’, and at least one more character (since the ? has to match one character, and the final * can match any number of characters). Thus, p*.p?* would match preferred.practice, and even p.pi (since the first * can match no characters at all), but not quality.practice (doesn’t start with ‘p’) or preferred.p (there isn’t at least one character after the ‘.p’).
+
+When run in the molecules directory, which ls command(s) will produce this output?
+
+ethane.pdb methane.pdb
+
+ls *t??ne.pdb
+
+We’ll continue to use cat in this lesson, for convenience and consistency, but it has the disadvantage that it always dumps the whole file onto your screen. More useful in practice is the command less, which you use with $ less lengths.txt. This displays a screenful of the file, and then stops. You can go forward one screenful by pressing the spacebar, or back one by pressing b. Press q to quit.
+
+f we run sort on a file containing the following lines:
+
+10
+2
+19
+22
+6
+the output is:
+
+10
+19
+2
+22
+6
+If we run sort -n on the same input, we get this instead:
+
+2
+6
+10
+19
+22
+
+The -n flag specifies a numeric sort, rather than alphabetical.
+
+wc -w *.ipynb | sort -n 
+
+wc -w *.ipynb | sort 
+
+sort -n lengths.txt
+
+In our current directory, we want to find the 3 files which have the least number of lines. Which command listed below would work?
+
+wc -l * | sort -n | head -n 3
+
+As well as using > to redirect a program’s output, we can use < to redirect its input, i.e., to read from a file instead of from standard input. For example, instead of writing wc ammonia.pdb, we could write wc < ammonia.pdb. In the first case, wc gets a command line argument telling it what file to open. In the second, wc doesn’t have any command line arguments, so it reads from standard input, but we have told the shell to send the contents of ammonia.pdb to wc’s standard input.
+
+
+
+The command uniq removes adjacent duplicated lines from its input. For example, the file salmon.txt contains:
+
+coho
+coho
+steelhead
+coho
+steelhead
+steelhead
+
+Running the command uniq salmon.txt produces:
+
+coho
+steelhead
+coho
+steelhead
+
+$ sort salmon.txt | uniq > removing all duplicates from a file
+
+A file called animals.txt (in the data-shell/data folder) contains the following data:
+
+2012-11-05,deer
+2012-11-05,rabbit
+2012-11-05,raccoon
+2012-11-06,rabbit
+2012-11-06,deer
+2012-11-06,fox
+2012-11-07,rabbit
+2012-11-07,bear
+
+$ cat animals.txt | head -n 5 | tail -n 3 | sort -r > final.txt
+
+The command above will return the output below, sort -r means sorting in reverse order
+
+2012-11-06,rabbit
+2012-11-06,deer
+2012-11-05,raccoon
+
+$ cut -d , -f 2 animals.txt 
+
+here -d stands for delimiter in our case "," is the delimiter -f let us to choose the field no. in our case 2nd column, hence output will be
+
+deer
+rabbit
+raccoon
+rabbit
+deer
+fox
+rabbit
+bear
+
+What other command(s) could be added to this in a pipeline to find out what animals the file contains (without any duplicates in their names)?
+
+Solution:
+
+$ cut -d , -f 2 animals.txt | sort | uniq
+
+
+The file animals.txt contains 586 lines of data formatted as follows:
+
+2012-11-05,deer
+2012-11-05,rabbit
+2012-11-05,raccoon
+2012-11-06,rabbit
+...
+Assuming your current directory is data-shell/data/, what command would you use to produce a table that shows the total count of each type of animal in the file?
+
+cut -d, -f 2 animals.txt | sort | uniq -c
+
+$ wc -l *.txt | sort -n | head -n 5 > Checking no. of line is consistent through out the files
+
+$ wc -l *.txt | sort -n | tail -n 5 > Checking no. of line is consistent through out the files
+
+The wildcard expression *[AB].txt matches all files ending in A.txt or B.txt. Imagine you forgot about this.
+
+
+$ for filename in basilisk.dat unicorn.dat
+> do
+>    head -n 3 $filename	# Indentation within the loop aids legibility
+> done
+
+When using variables it is also possible to put the names into curly braces to clearly delimit the variable name: $filename is equivalent to ${filename}, but is different from ${file}name. 
+
+ls gives the following output:
+
+cubane.pdb  ethane.pdb  methane.pdb  octane.pdb  pentane.pdb  propane.pdb
+
+What is the output of the following code?
+
+for datafile in *.pdb
+do
+    ls *.pdb
+done
+
+Now, what is the output of the following code?
+
+for datafile in *.pdb
+do
+	ls $datafile
+done
+
+The first code block gives the same output on each iteration through the loop, whereas The second code block lists a different file on each loop iteration. The value of the datafile variable is evaluated using $datafile, and then listed using ls.
+
+The shell prompt changes from $ to > and back again as we were typing in our loop. The second prompt, >, is different to remind us that we haven’t finished typing a complete command yet. A semicolon, ";", can be used to separate two commands written on a single line.
+
+Here we see > being used a shell prompt, whereas > is also used to redirect output. Similarly, $ is used as a shell prompt, but, as we saw earlier, it is also used to ask the shell to get the value of a variable.
+
+If the shell prints > or $ then it expects you to type something, and the symbol is a prompt.
+
+If you type > or $ yourself, it is an instruction from you that the shell to redirect output or get the value of a variable.
+
+for filename in c*
+do
+    ls $filename 
+done
+
+The above loop only produces output that starts with c
+
+for filename in *.dat
+do
+    $filename
+    head -n 100 $filename | tail -n 20
+done
+
+Whitespace is used to separate the elements on the list that we are going to loop over. If on the list we have elements with whitespace we need to quote those elements and our variable when using it. Suppose our data files are named:
+
+red dragon.dat
+purple unicorn.dat
+We need to use
+
+for filename in "red dragon.dat" "purple unicorn.dat"
+do
+    head -n 100 "$filename" | tail -n 3
+done
+
+for filename in *.dat
+do
+    cp $filename original-$filename
+done
+
+$ for datafile in NENE*[AB].txt
+> do
+>     echo $datafile
+> done
+
+$ for datafile in NENE*[AB].txt
+> do
+>     echo $datafile stats-$datafile
+> done
+
+
+Typing in commands over and over again is becoming tedious, though, and Nelle is worried about making mistakes, so instead of re-entering her loop, she presses the up arrow. In response, the shell redisplays the whole loop on one line (using semi-colons to separate the pieces):
+
+$ for datafile in NENE*[AB].txt; do echo $datafile stats-$datafile; done
+
+
+We can move to the beginning of a line in the shell by typing Ctrl-a and to the end using Ctrl-e.
+
+$ history | tail -n 5
+
+Another way to repeat previous work is to use the history command to get a list of the last few hundred commands that have been executed, and then to use !123 (where “123” is replaced by the command number) to repeat one of those commands. For example, if Nelle types this:
+
+There are a number of other shortcut commands for getting at the history.
+
+Ctrl-R enters a history search mode “reverse-i-search” and finds the most recent command in your history that matches the text you enter next. Press Ctrl-R one or more additional times to search for earlier matches.
+!! retrieves the immediately preceding command (you may or may not find this more convenient than using the up-arrow)
+!$ retrieves the last word of the last command. That’s useful more often than you might expect: after bash goostats NENE01729B.txt stats-NENE01729B.txt, you can type less !$ to look at the file stats-NENE01729B.txt, which is quicker than doing up-arrow and editing the command-line.
+
+for datafile in *.pdb
+do
+    cat $datafile >> all.pdb
+done
+
+Suppose we want to preview the commands the following loop will execute without actually running those commands:
+
+for file in *.pdb
+do
+  analyze $file > analyzed-$file
+done
+What is the difference between the two loops below, and which one would we want to run?
+
+# Version 1
+for file in *.pdb
+do
+  echo analyze $file > analyzed-$file
+done
+# Version 2
+for file in *.pdb
+do
+  echo "analyze $file > analyzed-$file"
+done
+
+The second version is the one we want to run. This prints to screen everything enclosed in the quote marks, expanding the loop variable name because we have prefixed it with a dollar sign.
+
+The first version redirects the output from the command echo analyze $file to a file, analyzed-$file. A series of files is generated: analyzed-cubane.pdb, analyzed-ethane.pdb etc.
+
+Try both versions for yourself to see the output! Be sure to open the analyzed-*.pdb files to view their contents.
+
+
+for species in cubane ethane methane
+do
+    for temperature in 25 30 37 40
+    do
+        mkdir $species-$temperature
+    done
+done
+
+head -n "$2" "$1" | tail -n "$3" > can write this line in a .sh file and run it with bash <filename>.sh here 1st parameter is the file name, 2nd parameter is the no of line  and third parameter is also no of lines
+
+What if we want to process many files in a single pipeline? For example, if we want to sort our .pdb files by length, we would type:
+
+$ wc -l *.pdb | sort -n
+
+If we want to be able to get a sorted list of other kinds of files, we need a way to get all those names into the script. We can’t use $1, $2, and so on because we don’t know how many files there are. Instead, we use the special variable $@, which means, “All of the command-line arguments to the shell script.” We also should put $@ inside double-quotes to handle the case of arguments containing spaces ("$@" is equivalent to "$1" "$2" …) Here’s an example:
+
+$ nano sorted.sh
+
+# Sort filenames by their length.
+# Usage: bash sorted.sh one_or_more_filenames
+wc -l "$@" | sort -n
+
+$ bash sorted.sh *.pdb ../creatures/*.dat
+
+
+# Script to find unique species in csv files where species is the second data field
+# This script accepts any number of file names as command line arguments
+
+# Loop over all files
+for file in $@ 
+do
+	echo "Unique species in $file:"
+	# Extract species names
+	cut -d , -f 2 $file | sort | uniq
+done
+
+
+What happens if a script is supposed to process a bunch of files, but we don’t give it any filenames? For example, what if we type:
+
+$ bash sorted.sh
+but don’t say *.dat (or anything else)? In this case, $@ expands to nothing at all, so the pipeline inside the script is effectively:
+
+$ wc -l | sort -n
+
+Since it doesn’t have any filenames, wc assumes it is supposed to process standard input, so it just sits there and waits for us to give it some data interactively. From the outside, though, all we see is it sitting there: the script doesn’t appear to do anything.
+
+
+Suppose we have just run a series of commands that did something useful — for example, that created a graph we’d like to use in a paper. We’d like to be able to re-create the graph later if we need to, so we want to save the commands in a file. Instead of typing them in again (and potentially getting them wrong) we can do this:
+
+$ history | tail -n 5 > redo-figure-3.sh
+
+# Calculate stats for data files.
+
+for datafile in "$@"
+do
+    echo $datafile
+    bash goostats $datafile stats-$datafile
+done
+
+She saves this in a file called do-stats.sh so that she can now re-do the first stage of her analysis by typing:
+
+$ bash do-stats.sh NENE*[AB].txt
+She can also do this:
+
+$ bash do-stats.sh NENE*[AB].txt | wc -l
+
+so that the output is just the number of files processed rather than the names of the files that were processed.
+
+Write a shell script called longest.sh that takes the name of a directory and a filename extension as its arguments, and prints out the name of the file with the most lines in that directory with that extension. For example:
+
+$ bash longest.sh /tmp/data pdb
+would print the name of the .pdb file in /tmp/data that has the most lines.
+
+Solution
+
+# Shell script which takes two arguments: 
+#    1. a directory name
+#    2. a file extension
+# and prints the name of the file in that directory
+# with the most lines which matches the file extension.
+
+wc -l $1/*.$2 | sort -n | tail -n 2 | head -n 1
+
+grep” is a contraction of “global/regular expression/print"
+
+$ cat haiku.txt
+The Tao that is seen
+Is not the true Tao, until
+You bring fresh toner.
+
+With searching comes loss
+and the presence of absence:
+"My Thesis" not found.
+
+Yesterday it worked
+Today it is not working
+Software is like that.
+
+$ grep not haiku.txt
+
+Is not the true Tao, until
+"My Thesis" not found
+Today it is not working
+
+$ grep The haiku.txt
+
+The Tao that is seen
+"My Thesis" not found.
+
+To restrict matches to lines containing the word “The” on its own, we can give grep with the -w flag. This will limit matches to word boundaries.
+
+$ grep -w The haiku.txt
+The Tao that is seen
+
+$ grep -w "is not" haiku.txt
+Today it is not working
+
+We’ve now seen that you don’t have to have quotes around single words, but it is useful to use quotes when searching for multiple words. It also helps to make it easier to distinguish between the search term or phrase and the file being searched. We will use quotes in the remaining examples.
+
+Another useful option is -n, which numbers the lines that match:
+
+$ grep -n "it" haiku.txt
+
+5:With searching comes loss
+9:Yesterday it worked
+10:Today it is not working
+
+$ grep -n -w "the" haiku.txt
+
+2:Is not the true Tao, until
+6:and the presence of absence:
+
+Now we want to use the option -i to make our search case-insensitive:
+
+$ grep -n -w -i "the" haiku.txt
+1:The Tao that is seen
+2:Is not the true Tao, until
+6:and the presence of absence:
+
+Now, we want to use the option -v to invert our search, i.e., we want to output the lines that do not contain the word “the”.
+
+$ grep -n -w -v "the" haiku.txt
+1:The Tao that is seen
+3:You bring fresh toner.
+4:
+5:With searching comes loss
+7:"My Thesis" not found.
+8:
+9:Yesterday it worked
+10:Today it is not working
+11:Software is like that.
+
+
+grep’s real power doesn’t come from its options, though; it comes from the fact that patterns can include wildcards. (The technical name for these is regular expressions, which is what the “re” in “grep” stands for.) Regular expressions are both complex and powerful; if you want to do complex searches, please look at the lesson on our website. As a taster, we can find lines that have an ‘o’ in the second position like this:
+
+$ grep -E '^.o' haiku.txt
+You bring fresh toner.
+Today it is not working
+Software is like that.
+
+
+Leah has several hundred data files saved in one directory, each of which is formatted like this:
+
+2013-11-05,deer,5
+2013-11-05,rabbit,22
+2013-11-05,raccoon,7
+2013-11-06,rabbit,19
+2013-11-06,deer,2
+
+She wants to write a shell script that takes a species as the first command-line argument and a directory as the second argument. The script should return one file called species.txt containing a list of dates and the number of that species seen on each date. For example using the data shown above, rabbit.txt would contain:
+
+2013-11-05,22
+2013-11-06,19
+
+grep -w $1 -r $2 | cut -d : -f 2 | cut -d , -f 1,3  > $1.txt
+
+-r in grep recursively search in directories
+grep -w $1 -r $2 will return result something like
+<file_name>: line where the word is present 
+in place of $2 directroy, if current directorty use "."
+
+grep -w $1 -r $2 | cut -d : -f 2 > Both the commands will
+all the lines that contain the string will be similar to 
+
+2013-11-05,deer,5
+2013-11-05,rabbit,22
+2013-11-05,raccoon,7
+2013-11-06,rabbit,19
+2013-11-06,deer,2
+
+Now use cut "," as delimiter and selectfield 1 and 3
+
+ you have a file LittleWomen.txt containing the full text of the novel. Using a for loop, how would you tabulate the number of times each of the four sisters(Jo, Meg, Beth, and Amy) is mentioned?
+ 
+ for sis in Jo Meg Beth Amy
+do
+	echo $sis:
+	grep -ow $sis LittleWomen.txt | wc -l
+done
+
+Alternative, slightly inferior solution, becuause it returns only no. of lines where match occured, a line my contain more than one instances of the pattern :
+
+for sis in Jo Meg Beth Amy
+do
+	echo $sis:
+	grep -ocw $sis LittleWomen.txt
+done
+
+
+-o in grep will produce exact match, -c will produce no of line where match occurs
+
+
+$echo "the sdns the jdns the" | grep -ow "the"
+
+the
+the
+the
+
+hence $echo "the sdns the jdns the" | grep -ow "the" | wc -l
+3
+
+whereas 
+$echo "the sdns the jdns the" | grep -ocw "the"
+1
+
+While grep finds lines in files, the find command finds files themselves
+
+The first option in our list is -type d that means “things that are directories”. Sure enough, find’s output is the names of the five directories in our little tree (including .):
+
+$ find . -type d
+
+Notice that the objects find finds are not listed in any particular order. If we change -type d to -type f, we get a listing of all the files instead:
+
+$ find . -type f
+
+Now let’s try matching by name:
+
+$ find . -name *.txt
+./haiku.txt
+We expected it to find all the text files, but it only prints out ./haiku.txt. The problem is that the shell expands wildcard characters like * before commands run. Since *.txt in the current directory expands to haiku.txt, the command we actually ran was:
+
+$ find . -name haiku.txt
+find did what we asked; we just asked for the wrong thing.
+
+To get what we want, let’s do what we did with grep: put *.txt in single quotes to prevent the shell from expanding the * wildcard. This way, find actually gets the pattern *.txt, not the expanded filename haiku.txt:
+
+$ find . -name '*.txt'
+./data/one.txt
+./data/LittleWomen.txt
+./data/two.txt
+./haiku.txt
+
+As we just saw, find . -name '*.txt' gives us a list of all text files in or below the current directory. How can we combine that with wc -l to count the lines in all those files?
+
+The simplest way is to put the find command inside $():
+
+$ wc -l $(find . -name '*.txt')
+11 ./haiku.txt
+300 ./data/two.txt
+21022 ./data/LittleWomen.txt
+70 ./data/one.txt
+21403 total
+
+It’s very common to use find and grep together. The first finds files that match a pattern; the second looks for lines inside those files that match another pattern. Here, for example, we can find PDB files that contain iron atoms by looking for the string “FE” in all the .pdb files above the current directory:
+
+$ grep "FE" $(find .. -name '*.pdb')
+../data/pdb/heme.pdb:ATOM     25 FE  -0.924   0.535  -0.518
+
+here grep will search inside all the files listed by the find command
+
+find data -name '*s.txt' | grep -v net > will return all the file names that ends with s but does not contain net in the entire tree structure of the current working directory since -v with grep inverts pattern matching
+
+wc -l $(find . -name '*.dat') | sort -n > will produce result all the file with number of lines it has in sorted order(wrt to no. of lines) 
+
+
+The find command can be given several other criteria known as “tests” to locate files with specific attributes, such as creation time, size, permissions, or ownership.
+
+
+
